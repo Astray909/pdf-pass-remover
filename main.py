@@ -1,16 +1,32 @@
 import pikepdf
+import os
 
-pdf_loc = input("PDF location: ")
-pdf_pass = input("PDF password: ")
+def find_ext(dir):
+    files = []
+    for file in os.listdir(dir):
+        if file.endswith(".pdf"):
+            # print(os.path.join(dir, file))
+            files.append((os.path.join(dir, file),file))
+    return files
 
-pdf = pikepdf.open(pdf_loc, password=pdf_pass)
+def pdf_unlock(dir, pdf_pass):
+    all_pdf = find_ext(dir)
 
-print("\nProcessing...\n")
+    isExist = os.path.exists(dir + "\\unlocked")
+    if not isExist:
+        # Create a new directory because it does not exist
+        os.makedirs(dir + "\\unlocked")
 
-pdf_save = input("Save file as: ")
-pdf_loc2 = input("Save location: ")
+    for one_pdf in all_pdf:
+        pdf = pikepdf.open(one_pdf[0], password=pdf_pass)
+        print("\nProcessing...\n")
+        pdf_save = one_pdf[1].replace(".pdf", "_unlocked.pdf")
+        pdf_loc2 = dir + "\\unlocked"
+        pdf.save(pdf_loc2 + '\\' + pdf_save)
+        print("The password successfully removed from the PDF")
+        print("\aLocation: " + dir + '\\' + pdf_save)
 
-pdf.save(pdf_loc2 + '\\' + pdf_save)
-
-print("The password successfully removed from the PDF")
-print("\aLocation: " + pdf_loc + '\\' + pdf_save)
+if __name__ == "__main__":
+    dir = input("PDF location: ")
+    pdf_pass = input("PDF password: ")
+    pdf_unlock(dir, pdf_pass)
