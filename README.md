@@ -1,7 +1,7 @@
 # PDF Pass Remover
 **[Justin Huang](https://github.com/Astray909)**
 
-Master Template script written in Python3
+Script to remove password protection from PDF files
 
 ## Requirement:
 1. Python 3 Environment (preferably in a conda enviornment)
