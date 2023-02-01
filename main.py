@@ -1,6 +1,8 @@
 import pikepdf
 import os
 
+import supportingModule.progressBar as pgB
+
 def find_ext(dir):
     files = []
     for file in os.listdir(dir):
@@ -10,21 +12,29 @@ def find_ext(dir):
     return files
 
 def pdf_unlock(dir, pdf_pass):
+    os_name = os.name
+    if os_name == 'Windows':
+        div_sym = "\\"
+    else:
+        div_sym = "/"
+
     all_pdf = find_ext(dir)
 
-    isExist = os.path.exists(dir + "\\unlocked")
+    isExist = os.path.exists(dir + div_sym + "unlocked")
     if not isExist:
         # Create a new directory because it does not exist
-        os.makedirs(dir + "\\unlocked")
+        os.makedirs(dir + div_sym + "unlocked")
 
-    for one_pdf in all_pdf:
-        pdf = pikepdf.open(one_pdf[0], password=pdf_pass)
-        print("\nProcessing...\n")
-        pdf_save = one_pdf[1].replace(".pdf", "_unlocked.pdf")
-        pdf_loc2 = dir + "\\unlocked"
-        pdf.save(pdf_loc2 + '\\' + pdf_save)
-        print("The password successfully removed from the PDF")
-        print("\aLocation: " + dir + '\\' + pdf_save)
+    pgB.printProgressBar(0, len(all_pdf), prefix =  'Unlocking Progress:', suffix = 'Complete', length = 50)
+    for i in range(len(all_pdf)):
+        pdf = pikepdf.open(all_pdf[i][0], password=pdf_pass)
+        # print("\nProcessing...\n")
+        pdf_save = all_pdf[i][1].replace(".pdf", "_unlocked.pdf")
+        pdf_loc2 = dir + div_sym + "unlocked"
+        pdf.save(pdf_loc2 + div_sym + pdf_save)
+        # print("The password successfully removed from the PDF")
+        # print("\aLocation: " + dir + div_sym + pdf_save)
+        pgB.printProgressBar(i+1, len(all_pdf), prefix =  'Unlocking Progress:', suffix = 'Complete', length = 50)
 
 if __name__ == "__main__":
     dir = input("PDF location: ")
