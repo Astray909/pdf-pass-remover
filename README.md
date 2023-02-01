@@ -18,4 +18,4 @@ Master Template script written in Python3
 
 ## Features:
 ### Script workflow:
-1. Removes password protection from all PDF files in a given directory`
+1. Removes password protection from all PDF files in a given directory
