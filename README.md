@@ -14,7 +14,7 @@ Script to remove password protection from PDF files
 ## Setup procedure:
 ### Recommended:
 1. Launch main.py from command line
-2. Follor on-screen prompts
+2. Follow on-screen prompts
 
 ## Features:
 ### Script workflow:
